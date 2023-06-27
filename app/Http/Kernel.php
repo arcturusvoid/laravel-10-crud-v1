@@ -45,6 +45,11 @@ class Kernel extends HttpKernel
         ],
     ];
 
+    protected $routeMiddleware = [
+        // Other middleware...
+        'check_ticket_owner' => \App\Http\Middleware\CheckTicketOwner::class,
+    ];
+
     /**
      * The application's middleware aliases.
      *
