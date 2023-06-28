@@ -82,5 +82,92 @@
                 </div>
             </div>
         </div>
+
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <section class="bg-white dark:bg-gray-900 py-4 lg:py-16">
+                <div class="max-w-4xl mx-auto px-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion
+                            ({{ $ticket->replies->count() }})</h3>
+                    </div>
+                    @foreach ($ticket->replies as $reply)
+                        <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
+                            <footer class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
+                                            class="mr-2 w-6 h-6 rounded-full" src="/storage/{{ $reply->user->avatar }}"
+                                            alt="{{ $reply->user->name }}">{{ $reply->user->role === 'admin' ? $reply->user->name . ' (Admin)' : $reply->user->name . ' (You)' }}
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        {{ $reply->created_at->format('M. d, Y') }}</p>
+                                </div>
+                                @if (auth()->user()->id === $reply->user_id || auth()->user()->role === 'admin')
+                                    <div x-data="{ open: false }" class="relative inline-block">
+                                        <button id="dropdownComment1Button"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button" @click="open = !open" aria-haspopup="true"
+                                            :aria-expanded="open.toString()">
+                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                                </path>
+                                            </svg>
+                                            <span class="sr-only">Comment settings</span>
+                                        </button>
+
+                                        <!-- Dropdown menu -->
+                                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                                            x-transition:enter-start="transform opacity-0 scale-95"
+                                            x-transition:enter-end="transform opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="transform opacity-100 scale-100"
+                                            x-transition:leave-end="transform opacity-0 scale-95"
+                                            class="absolute right-0 mt-2 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                                            @click.away="open = false" x-ref="dropdownComment1" x-cloak>
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                                <li>
+                                                    <a href="{{ route('reply.edit', [$reply->ticket, $reply->id]) }}"
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                                </li>
+                                                <form action="{{ route('reply.destroy', $reply->id) }}" method="post"
+                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    <li>
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button>Remove</button>
+                                                    </li>
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
+                            </footer>
+                            <p class="text-gray-500 dark:text-gray-400">{{ $reply->body }}</p>
+
+                            @if ($reply->created_at != $reply->updated_at)
+                                <span class="text-gray-500 dark:text-gray-600 italic">edited</span>
+                            @endif
+
+                        </article>
+                    @endforeach
+                </div>
+                <form class="mb-6" method="post" action="{{ route('reply.store', $ticket->id) }}">
+                    @csrf
+                    <div
+                        class="py-2 px-4 mb-2 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <label for="body" class="sr-only">Your comment</label>
+                        <textarea id="body" name="body" rows="6"
+                            class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                            placeholder="Write a comment..." required></textarea>
+
+                    </div>
+                    <x-input-error :messages="$errors->get('body')" class="mb-2 mt-2" />
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-1 rounded-lg">
+                        Post Reply
+                    </button>
+                </form>
+            </section>
+        </div>
     </div>
 </x-app-layout>

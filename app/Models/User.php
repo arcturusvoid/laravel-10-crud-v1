@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Reply;
 use App\Models\Ticket;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -37,5 +38,9 @@ class User extends Authenticatable
 
     public function tickets() {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function replies() {
+        return $this->hasMany(Reply::class);
     }
 }

@@ -5,6 +5,7 @@ use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Profile\AvatarController;
@@ -56,4 +57,11 @@ Route::get('/auth/callback', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('ticket', TicketController::class);
+    // Route::resource('reply', ReplyController::class);
+
+    Route::post('/reply/{ticket}', [ReplyController::class, 'store'])->name('reply.store');
+    Route::get('/reply/{ticket}/{reply}', [ReplyController::class, 'edit'])->name('reply.edit');
+    Route::patch('/reply/{reply}', [ReplyController::class, 'update'])->name('reply.update');
+    Route::delete('/reply/{reply}', [ReplyController::class, 'destroy'])->name('reply.destroy');
+
 });
