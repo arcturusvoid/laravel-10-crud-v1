@@ -32,11 +32,10 @@ class TicketController extends Controller
             $path = $request->file('attachment')->store('ticketAttachments', 'public');
         }
 
-        $ticket = Ticket::create([
+        $ticket = $request->user()->tickets()->create([
             'title' => $request->title,
             'description' => $request->description,
             'attachment' => $path,
-            'user_id' => $request->user()->id,
         ]);
 
         return redirect()->route('ticket.create')->with('status', 'ticket-added');

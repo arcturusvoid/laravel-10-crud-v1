@@ -16,9 +16,9 @@
                     <div class="px-6 mb-3 text-gray-900 dark:text-gray-100">
                         <p class="text-white overflow-auto break-words">Ticket Description: {{ $ticket->description }}
                         </p>
-                        <hr class="w-48 h-1 my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700">
-                        @if ($ticket->attachment)
-                            <a href="/storage/{{ $ticket->attachment != null ? $ticket->attachment : '' }}"
+                        <hr class="w-64 h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 mb-3 mt-6">
+                        @if ($ticket->attachment != null)
+                            <a href="/storage/{{ $ticket->attachment }}"
                                 target="_blank">View Attachment</a>
                         @endif
                         <div class="flex justify-{{ auth()->user()->role === 'admin' ? 'end' : 'between' }}">

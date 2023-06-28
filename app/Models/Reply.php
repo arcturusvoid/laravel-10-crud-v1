@@ -23,4 +23,9 @@ class Reply extends Model
     public function ticket() {
         return $this->belongsTo(Ticket::class);
     }
+
+    // public function replyable()
+    // {
+    //     return $this->morphTo();
+    // }
 }

@@ -27,12 +27,11 @@
                             </thead>
                             <tbody>
                                 @forelse ($tickets as $ticket)
-                                    <tr class="">
-                                        <td
-                                            class="hover:text-indigo-400 pl-3 text-center mb-2 dark:text-gray-300 text-start pb-3">
-                                            <a class=""
-                                                href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->title }}
-                                            </a>
+                                    <tr>
+                                        <td class="hover:text-indigo-400 pl-3 text-center mb-2 dark:text-gray-300 text-start pb-3 overflow-hidden">
+                                            <a class="truncate text-ellipsis" href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->title }}</a>
+                                        </td>
+                                        
                                         <td class="hover:text-blue-400 text-center mb-2 dark:text-gray-300"> <a
                                                 href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->created_at->diffForHumans() }}
                                             </a>

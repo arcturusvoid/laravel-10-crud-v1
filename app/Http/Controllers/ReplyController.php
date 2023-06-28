@@ -16,6 +16,11 @@ class ReplyController extends Controller
             'user_id' => $request->user()->id,
             'ticket_id' => $ticket->id
         ]);
+
+        // $reply = $ticket->replies()->create([
+        //     'body' => $request->body,
+        // ]);
+
         return redirect()->route('ticket.show', $ticket->id);
     }
 
