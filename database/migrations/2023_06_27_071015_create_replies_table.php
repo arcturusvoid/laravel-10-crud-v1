@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
             $table->text('body');
-            $table->integer('user_id');
-            $table->integer('ticket_id');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');;
             $table->timestamps();
         });
     }

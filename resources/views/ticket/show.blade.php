@@ -91,7 +91,7 @@
                             ({{ $ticket->replies->count() }})</h3>
                     </div>
                     @foreach ($ticket->replies as $reply)
-                        <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
+                        <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
                             <footer class="flex justify-between items-center mb-2">
                                 <div class="flex items-center">
                                     <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
