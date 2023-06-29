@@ -92,7 +92,7 @@
                     @php
                         $replies = $ticket->replies()->paginate(10);
                     @endphp
-                    @foreach ($replies as $reply)
+                    @forelse ($replies as $reply)
                         <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
                             <footer class="flex justify-between items-center mb-2">
                                 <div class="flex items-center">
@@ -107,44 +107,40 @@
                                         {{ $reply->created_at->format('M. d, Y') }}</p>
                                 </div>
                                 @if (auth()->user()->id === $reply->user_id || auth()->user()->role === 'admin')
-                                    <div x-data="{ open: false }" class="relative inline-block">
-                                        <button id="dropdownComment1Button"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button" @click="open = !open" aria-haspopup="true"
-                                            :aria-expanded="open.toString()">
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                                </path>
-                                            </svg>
-                                            <span class="sr-only">Comment settings</span>
-                                        </button>
+                                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                        <x-dropdown align="right" width="48">
+                                            <x-slot name="trigger">
+                                                <button
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                                    <div>
+                                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                                        </path>
+                                                    </svg>
+                                                    <span class="sr-only">Comment settings</span>
+                                                    </div>
+                                                </button>
+                                            </x-slot>
 
-                                        <!-- Dropdown menu -->
-                                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
-                                            x-transition:enter-start="transform opacity-0 scale-95"
-                                            x-transition:enter-end="transform opacity-100 scale-100"
-                                            x-transition:leave="transition ease-in duration-75"
-                                            x-transition:leave-start="transform opacity-100 scale-100"
-                                            x-transition:leave-end="transform opacity-0 scale-95"
-                                            class="absolute right-0 mt-2 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            @click.away="open = false" x-ref="dropdownComment1" x-cloak>
-                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
-                                                <li>
-                                                    <a href="{{ route('reply.edit', [$reply->ticket, $reply->id]) }}"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                                </li>
-                                                <form action="{{ route('reply.destroy', $reply->id) }}" method="post"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                    <li>
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button>Remove</button>
-                                                    </li>
+                                            <x-slot name="content">
+                                                <x-dropdown-link :href="route('reply.edit', [$reply->ticket, $reply->id])">
+                                                    {{ __('Edit') }}
+                                                </x-dropdown-link>
+
+                                                <form method="POST" action="{{route('reply.destroy', $reply->id)}}">
+                                                    @csrf
+                                                    @method('delete')
+
+                                                    <x-dropdown-link :href="route('reply.destroy', $reply->id)"
+                                                    onclick="event.preventDefault();
+                                                                    this.closest('form').submit();">
+                                                    {{ __('Delete') }}
+                                                </x-dropdown-link>
                                                 </form>
-                                            </ul>
-                                        </div>
+                                            </x-slot>
+                                        </x-dropdown>
                                     </div>
                                 @endif
                             </footer>
@@ -155,7 +151,9 @@
                             @endif
 
                         </article>
-                    @endforeach
+                    @empty
+                    <p class="text-gray-500 dark:text-gray-400">Theres no discussion yet, make some!</p>
+                    @endforelse
                     <div class="p-5"> {{ $replies->links() }}</div>
 
                 </div>

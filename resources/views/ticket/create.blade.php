@@ -41,7 +41,7 @@
                             <x-primary-button class="mb-4 ">{{ __('Create Ticket') }}</x-primary-button>
                             @if (session('status') === 'ticket-added')
                                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
-                                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Ticket Added.') }}</p>
+                                    class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ __('Ticket Added.') }}</p>
                             @endif
                         </form>
                     </div>
