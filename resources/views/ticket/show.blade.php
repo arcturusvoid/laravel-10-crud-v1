@@ -93,20 +93,10 @@
                         <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
                             <footer class="flex justify-between items-center mb-2">
                                 <div class="flex items-center">
-                                    <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
+                                    <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white capitalize"><img
                                             class="mr-2 w-6 h-6 rounded-full" src="/storage/{{ $reply->user->avatar }}"
                                             alt="">
-                                        @php
-                                            if($reply->user->role === 'admin' && $reply->user->id === auth()->user()->id)
-                                                echo $reply->user->name . ' (You, Admin)';
-                                            elseif ($reply->user->role === 'admin') 
-                                                echo $reply->user->name . ' (Admin)';
-                                            elseif($reply->user->id === auth()->user()->id)
-                                                echo $reply->user->name . ' (You)';
-                                            else {
-                                                echo $reply->user->name;
-                                            }
-                                        @endphp
+                                            {{ $reply->user->id === auth()->user()->id? $reply->user->name . " (You, " . $reply->user->role . ")" : $reply->user->name . " (" . $reply->user->role . ")" }}
                                     </p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">
                                         {{ $reply->created_at->diffForHumans() }},
