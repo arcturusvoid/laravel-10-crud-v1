@@ -18,8 +18,7 @@
                         </p>
                         <hr class="w-64 h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 mb-3 mt-6">
                         @if ($ticket->attachment != null)
-                            <a href="/storage/{{ $ticket->attachment }}"
-                                target="_blank">View Attachment</a>
+                            <a href="/storage/{{ $ticket->attachment }}" target="_blank">View Attachment</a>
                         @endif
                         <div class="flex justify-{{ auth()->user()->role === 'admin' ? 'end' : 'between' }}">
                             @if (auth()->user()->role === 'admin')
@@ -96,9 +95,21 @@
                                 <div class="flex items-center">
                                     <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
                                             class="mr-2 w-6 h-6 rounded-full" src="/storage/{{ $reply->user->avatar }}"
-                                            alt="{{ $reply->user->name }}">{{ $reply->user->role === 'admin' ? $reply->user->name . ' (Admin)' : $reply->user->name . ' (You)' }}
+                                            alt="">
+                                        @php
+                                            if($reply->user->role === 'admin' && $reply->user->id === auth()->user()->id)
+                                                echo $reply->user->name . ' (You, Admin)';
+                                            elseif ($reply->user->role === 'admin') 
+                                                echo $reply->user->name . ' (Admin)';
+                                            elseif($reply->user->id === auth()->user()->id)
+                                                echo $reply->user->name . ' (You)';
+                                            else {
+                                                echo $reply->user->name;
+                                            }
+                                        @endphp
                                     </p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        {{ $reply->created_at->diffForHumans() }},
                                         {{ $reply->created_at->format('M. d, Y') }}</p>
                                 </div>
                                 @if (auth()->user()->id === $reply->user_id || auth()->user()->role === 'admin')

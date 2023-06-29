@@ -25,9 +25,9 @@
 
                             <div class="mb-4">
                                 <x-input-label for="description" :value="__('Description')" />
-                                <x-text-area-input placeholder="Add description" id="description" name="description"
+                                <x-textarea placeholder="Add description" id="description" name="description"
                                     value="{{ old('description') }}" class="block mt-1 w-full" autofocus required>
-                                </x-text-area-input>
+                                </x-textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 

@@ -25,6 +25,5 @@ class Ticket extends Model
 
     public function replies() {
         return $this->hasMany(Reply::class);
-        // return $this->morphMany(Reply::class, 'replyable');
     }
 }

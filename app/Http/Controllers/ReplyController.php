@@ -11,16 +11,11 @@ class ReplyController extends Controller
 {
     public function store(StoreReplyRequest $request, Ticket $ticket)
     {
-        $reply = Reply::create([
+        $reply = $ticket->replies()->create([
             'body' => $request->body,
             'user_id' => $request->user()->id,
-            'ticket_id' => $ticket->id
         ]);
-
-        // $reply = $ticket->replies()->create([
-        //     'body' => $request->body,
-        // ]);
-
+        
         return redirect()->route('ticket.show', $ticket->id);
     }
 
