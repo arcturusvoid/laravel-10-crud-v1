@@ -14,7 +14,7 @@ class TicketController extends Controller
 {
     public function index(Request $request){
 
-        $tickets = $request->user()->role === 'admin'? Ticket::orderBy('updated_at', 'desc')->get() : $request->user()->tickets()->orderBy('updated_at', 'desc')->get();
+        $tickets = $request->user()->role === 'admin'? Ticket::orderBy('updated_at', 'desc')->paginate(10) : $request->user()->tickets()->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('ticket.index', compact('tickets'));
     }

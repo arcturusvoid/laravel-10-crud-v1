@@ -50,6 +50,8 @@
                             </tbody>
                         </table>
                     </div>
+                  
+                    <div class="p-5">{{ $tickets->links() }}</div>
 
                 </div>
             </div>

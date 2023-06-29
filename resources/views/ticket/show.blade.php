@@ -89,14 +89,18 @@
                         <h3 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion
                             ({{ $ticket->replies->count() }})</h3>
                     </div>
-                    @foreach ($ticket->replies as $reply)
+                    @php
+                        $replies = $ticket->replies()->paginate(10);
+                    @endphp
+                    @foreach ($replies as $reply)
                         <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
                             <footer class="flex justify-between items-center mb-2">
                                 <div class="flex items-center">
-                                    <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white capitalize"><img
-                                            class="mr-2 w-6 h-6 rounded-full" src="/storage/{{ $reply->user->avatar }}"
-                                            alt="">
-                                            {{ $reply->user->id === auth()->user()->id? $reply->user->name . " (You, " . $reply->user->role . ")" : $reply->user->name . " (" . $reply->user->role . ")" }}
+                                    <p
+                                        class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white capitalize">
+                                        <img class="mr-2 w-6 h-6 rounded-full"
+                                            src="/storage/{{ $reply->user->avatar }}" alt="">
+                                        {{ $reply->user->id === auth()->user()->id ? $reply->user->name . ' (You, ' . $reply->user->role . ')' : $reply->user->name . ' (' . $reply->user->role . ')' }}
                                     </p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">
                                         {{ $reply->created_at->diffForHumans() }},
@@ -152,6 +156,8 @@
 
                         </article>
                     @endforeach
+                    <div class="p-5"> {{ $replies->links() }}</div>
+
                 </div>
                 <form class="mb-6" method="post" action="{{ route('reply.store', $ticket->id) }}">
                     @csrf
