@@ -18,26 +18,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::get('/post', [PostController::class, 'create'])->name('post');
-    Route::post('/post', [PostController::class, 'store'])->name('post.store');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/profile/avatar', [AvatarController::class, 'update'])->name('avatar.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-
-require __DIR__.'/auth.php';
-
 Route::any('/openai', function () {
-
-$result = OpenAI::completions()->create([
-    'model' => 'text-davinci-003',
-    'prompt' => 'PHP is',
-]);
-
-echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
+    $result = OpenAI::completions()->create([
+        'model' => 'text-davinci-003',
+        'prompt' => 'PHP is',
+    ]);
+    echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
 });
 
 Route::get('/auth/github', function () {
@@ -56,6 +42,14 @@ Route::get('/auth/callback', function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/post', [PostController::class, 'create'])->name('post');
+    Route::post('/post', [PostController::class, 'store'])->name('post.store');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/avatar', [AvatarController::class, 'update'])->name('avatar.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource('ticket', TicketController::class);
     // Route::resource('reply', ReplyController::class);
 
@@ -65,3 +59,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reply/{reply}', [ReplyController::class, 'destroy'])->name('reply.destroy');
 
 });
+
+require __DIR__.'/auth.php';

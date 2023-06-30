@@ -11,9 +11,9 @@ class ReplyController extends Controller
 {
     public function store(StoreReplyRequest $request, Ticket $ticket)
     {
-        $reply = $ticket->replies()->create([
+        $request->user()->replies()->create([
+            'ticket_id' => $ticket->id,
             'body' => $request->body,
-            'user_id' => $request->user()->id,
         ]);
         
         return redirect()->route('ticket.show', $ticket->id);

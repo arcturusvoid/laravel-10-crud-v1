@@ -13,8 +13,8 @@
                 <form action="{{ route('post.store') }}" method="post">
                     @csrf
                     <div class="p-2">
-                        <div class="mx-auto sm:px-6 lg:px-8 flex">
-                            <div class="w-1/3">
+                        <div class="flex-row">
+                            <div class="">
                                 <div class="container p-5">
                                     <h1 class="text-2xl font-bold mb-4 text-white">Add post</h1>
                                     <textarea id="message" name="content" rows="4"
@@ -32,14 +32,16 @@
                                 </div>
                             </div>
 
-                            <div class="w-2/3">
+                            <div class="">
                                 <div class="container p-5">
                                     <h1 class="text-2xl font-bold mb-4 text-white">Posts</h1>
                                     <div class="flex flex-col gap-4">
                                         @foreach ($posts as $post)
                                             <div
                                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-4">
-                                                <h3 class="text-xl font-semibold mb-2 {{ auth()->user()->id == $post->user_id? "text-indigo-400" : "" }}">{{ $post->author }}
+                                                <h3
+                                                    class="text-xl font-semibold mb-2 {{ auth()->user()->id == $post->user->id ? 'text-white-400' : 'text-gray-400' }}">
+                                                    {{ $post->user->name }}
                                                 </h3>
                                                 <div class="text-white overflow-auto h-33 break-words">
                                                     {{ $post->content }}.
@@ -72,7 +74,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </form>

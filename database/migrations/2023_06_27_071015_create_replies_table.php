@@ -14,16 +14,13 @@ return new class extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
             $table->text('body');
-            // $table->morphs('replyable');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');;
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
             $table->timestamps();
+            
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('replies');

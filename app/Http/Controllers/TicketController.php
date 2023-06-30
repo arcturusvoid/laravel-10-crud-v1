@@ -14,7 +14,9 @@ class TicketController extends Controller
 {
     public function index(Request $request){
 
-        $tickets = $request->user()->role === 'admin'? Ticket::orderBy('updated_at', 'desc')->paginate(10) : $request->user()->tickets()->orderBy('updated_at', 'desc')->paginate(10);
+        $tickets = $request->user()->role === 'admin'?
+            Ticket::orderBy('updated_at', 'desc')->paginate(10)
+            :$request->user()->tickets()->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('ticket.index', compact('tickets'));
     }
@@ -54,11 +56,10 @@ class TicketController extends Controller
     }
 
     public function update(UpdateTicketRequest $request, Ticket $ticket)
-    {   
+    {
         $this->authorize('update', $ticket);
 
         if (auth()->user()->role === 'admin') {
-            $user = $ticket->user;
             $ticket->update($request->only('status'));
             // $ticket->user->notify(new TicketStatusChange($ticket));
             // return (new TicketStatusChange($ticket))->toMail($ticket->user);
@@ -71,7 +72,7 @@ class TicketController extends Controller
                 if($ticket->attachment){
                     Storage::disk('public')->delete($ticket->attachment);
                 }
-    
+
                 $path = $request->file('attachment')->store('ticketAttachments', 'public');
             }
             $ticket->update(array_merge($request->validated(), ['attachment' => $path]));

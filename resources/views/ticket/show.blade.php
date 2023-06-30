@@ -28,7 +28,7 @@
                                             @method('patch')
                                             @csrf
                                             <input type="hidden" name="status" value="resolved">
-                                            <x-primary-button class="">Approve</x-primary-button>
+                                            <x-primary-button class="">Resolve</x-primary-button>
                                         </form>
 
                                         <form action="{{ route('ticket.update', $ticket->id) }}" method="post">
@@ -70,12 +70,11 @@
                                     {{ $ticket->status }}</p>
                             @endif
                         </div>
-
-                        @if (auth()->user()->role === 'admin')
+                        @admin
                             <p class="text-gray-900 dark:text-gray-100 capitalize">Created by:
                                 {{ $ticket->user->name }}
                             </p>
-                        @endif
+                        @endadmin
                         <p class="text-gray-400 mt-2">{{ $ticket->created_at->diffForHumans() }}</p>
                     </div>
                 </div>
@@ -103,10 +102,9 @@
                                         {{ $reply->user->id === auth()->user()->id ? $reply->user->name . ' (You, ' . $reply->user->role . ')' : $reply->user->name . ' (' . $reply->user->role . ')' }}
                                     </p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        {{ $reply->created_at->diffForHumans() }},
-                                        {{ $reply->created_at->format('M. d, Y') }}</p>
+                                        {{ $reply->created_at->diffForHumans() }}</p>
                                 </div>
-                                @if (auth()->user()->id === $reply->user_id || auth()->user()->role === 'admin')
+                                @can('update', $reply)
                                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                                         <x-dropdown align="right" width="48">
                                             <x-slot name="trigger">
@@ -114,12 +112,12 @@
                                                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                                     <div>
                                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                                        </path>
-                                                    </svg>
-                                                    <span class="sr-only">Comment settings</span>
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                                            </path>
+                                                        </svg>
+                                                        <span class="sr-only">Comment settings</span>
                                                     </div>
                                                 </button>
                                             </x-slot>
@@ -129,30 +127,30 @@
                                                     {{ __('Edit') }}
                                                 </x-dropdown-link>
 
-                                                <form method="POST" action="{{route('reply.destroy', $reply->id)}}">
+                                                <form method="POST" action="{{ route('reply.destroy', $reply->id) }}">
                                                     @csrf
                                                     @method('delete')
 
                                                     <x-dropdown-link :href="route('reply.destroy', $reply->id)"
-                                                    onclick="event.preventDefault();
+                                                        onclick="event.preventDefault();
                                                                     this.closest('form').submit();">
-                                                    {{ __('Delete') }}
-                                                </x-dropdown-link>
+                                                        {{ __('Delete') }}
+                                                    </x-dropdown-link>
                                                 </form>
                                             </x-slot>
                                         </x-dropdown>
                                     </div>
-                                @endif
+                                @endcan
                             </footer>
                             <p class="text-gray-500 dark:text-gray-400">{{ $reply->body }}</p>
 
-                            @if ($reply->created_at != $reply->updated_at)
-                                <span class="text-gray-500 dark:text-gray-600 italic">edited</span>
+                            @if ($reply->created_at->lt($reply->updated_at))
+                                <span class="text-sm text-gray-500 dark:text-gray-600 italic">edited</span>
                             @endif
 
                         </article>
                     @empty
-                    <p class="text-gray-500 dark:text-gray-400">Theres no discussion yet, make some!</p>
+                        <p class="text-gray-500 dark:text-gray-400">Theres no discussion yet, make some!</p>
                     @endforelse
                     <div class="p-5"> {{ $replies->links() }}</div>
 
