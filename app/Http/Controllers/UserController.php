@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $this->authorize('view', auth()->user());
-        $users = User::withCount('tickets')->paginate();
+        $users = User::withCount('tickets')->paginate(15);
         return view('user.index', compact('users'));
     }
 

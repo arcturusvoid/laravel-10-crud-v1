@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'name' => 'Jeremy Aliparo',
             'email' => 'arcturusvoid09@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('secret'),
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'avatar' => 'avatars/t1E6Hd8gFS1tgJc9l9AkNlesXICj93QWjSqVaf9h.jpg',
         ]);
 
-        // User::factory()->count(30000)->create();
+        User::factory()->count(30000)->create();
     }
 }

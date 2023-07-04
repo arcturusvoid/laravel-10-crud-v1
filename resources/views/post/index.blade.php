@@ -18,10 +18,10 @@
     @endif
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 mb-5">
             <a class="text-md p-2 rounded-lg bg-indigo-500" href="{{ route('post.create') }}">New Post</a>
         </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     You can post your thoughts here
@@ -30,26 +30,32 @@
                     <div class="">
                         <div class="container p-5">
                             <h1 class="text-2xl font-bold mb-4 text-white">Posts</h1>
-                            <div class="flex flex-col gap-4">
+                            <div class="grid grid-cols-1 gap-4">
                                 @foreach ($posts as $post)
                                     <div
-                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-4 flex">
-                                        @if ($post->user->avatar)
-                                            <img class="rounded-full w-8 h-7 mr-2" src="/storage/{{ $post->user->avatar }}"
-                                                alt="{{ $post->user->name }}">
-                                        @endif
+                                        class="p-2.5 text-sm rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-4">
+                                        <div class="flex items-center">
+                                            @if ($post->user->avatar)
+                                                <img class="rounded-full w-8 h-7 mr-2"
+                                                    src="/storage/{{ $post->user->avatar }}"
+                                                    alt="{{ $post->user->name }}">
+                                            @endif
 
-                                        <h3
-                                            class="text-xl font-semibold mb-2 {{ auth()->user()->id == $post->user->id ? 'text-white-400' : 'text-gray-400' }}">
-                                            {{ $post->user->name }}
-                                        </h3>
-                                        <div class="text-white overflow-auto h-33 break-words w-full">
-                                            {{ $post->content }}.
+                                            <h3
+                                                class="text-lg font-semibold {{ auth()->user()->id == $post->user->id ? 'text-white-400' : 'text-gray-400' }}">
+                                                {{ $post->user->name }}
+                                            </h3>
+                                            <span class="text-gray-500 italic ml-2">
+                                                {{ $post->created_at->diffForHumans() }}</span>
+                                        </div>
+
+                                        <div class="text-white overflow-auto break-words w-full px-2 mt-2">
+                                            <span class="text-white text-sm">{{ $post->content }}</span>
 
                                             @can('view', $post)
-                                                <div class="flex inline-flex space-x-0">
+                                                <div class="flex inline-flex">
                                                     <a href="{{ route('post.edit', $post->id) }}"
-                                                        class="inline-flex items-center justify-end w-8 h-8 mr-2 rounded-full text-sky-500 transition-colors duration-150">
+                                                        class="inline-flex items-center justify-end ml-2 rounded-full text-sky-500 transition-colors duration-150">
                                                         <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
                                                             <path
                                                                 d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
@@ -60,7 +66,7 @@
                                                         @csrf
                                                         @method('delete')
                                                         <button type="submit"
-                                                            class="inline-flex items-center justify-start w-8 h-8 mr-2 rounded-full text-red-400 transition-colors duration-150">
+                                                            class="flex justify-start ml-2 rounded-full text-red-400 transition-colors duration-150">
                                                             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                                 class="w-3 h-3 fill-current" viewBox="0 0 20 20">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -72,8 +78,7 @@
                                             @endcan
 
                                         </div>
-                                        <p class="text-gray-500 italic text-sm mt-2">
-                                            {{ $post->created_at->diffForHumans() }}</p>
+
                                     </div>
                                 @endforeach
                             </div>
