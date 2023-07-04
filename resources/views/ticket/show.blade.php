@@ -21,7 +21,7 @@
                             <a href="/storage/{{ $ticket->attachment }}" target="_blank">View Attachment</a>
                         @endif
                         <div class="flex justify-{{ auth()->user()->role === 'admin' ? 'end' : 'between' }}">
-                            @if (auth()->user()->role === 'admin')
+                            @admin
                                 <div>
                                     <div class="inline-flex">
                                         <form action="{{ route('ticket.update', $ticket->id) }}" method="post">
@@ -68,7 +68,7 @@
                                 </div>
                                 <p class="px-6 pb-6 text-gray-900 dark:text-gray-100 capitalize">Status:
                                     {{ $ticket->status }}</p>
-                            @endif
+                            @endadmin
                         </div>
                         @admin
                             <p class="text-gray-900 dark:text-gray-100 capitalize">Created by:
@@ -88,9 +88,7 @@
                         <h3 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion
                             ({{ $ticket->replies->count() }})</h3>
                     </div>
-                    @php
-                        $replies = $ticket->replies()->paginate(10);
-                    @endphp
+
                     @forelse ($replies as $reply)
                         <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
                             <footer class="flex justify-between items-center mb-2">
@@ -123,7 +121,7 @@
                                             </x-slot>
 
                                             <x-slot name="content">
-                                                <x-dropdown-link :href="route('reply.edit', [$reply->ticket, $reply->id])">
+                                                <x-dropdown-link :href="route('reply.edit', $reply->id)">
                                                     {{ __('Edit') }}
                                                 </x-dropdown-link>
 

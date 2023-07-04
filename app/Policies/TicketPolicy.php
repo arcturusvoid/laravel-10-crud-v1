@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TicketPolicy
 {
@@ -17,11 +16,13 @@ class TicketPolicy
 
     public function update(User $user, Ticket $ticket): bool
     {
+        // Allow access if the user is the ticket owner or an admin
         return $user->id === $ticket->user_id || $user->role === 'admin';
     }
 
     public function delete(User $user, Ticket $ticket): bool
     {
+        // Allow access if the user is the ticket owner or an admin
         return $user->id === $ticket->user_id || $user->role === 'admin';
     }
 }

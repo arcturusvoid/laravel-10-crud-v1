@@ -11,6 +11,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Ticket::class => TicketPolicy::class,
         Reply::class => ReplyPolicy::class,
+        User::class => UserPolicy::class,
+        Post::class => PostPolicy::class,
     ];
 
     public function boot(): void

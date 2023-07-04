@@ -19,30 +19,33 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('post')" :active="request()->routeIs('post')">
+                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.*')">
                         {{ __('Post') }}
                     </x-nav-link>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('ticket.index')" :active="request()->routeIs('ticket.index') ||
-                        request()->routeIs('ticket.show') ||
-                        request()->routeIs('ticket.edit')">
+                    <x-nav-link :href="route('ticket.index')" :active="request()->routeIs('ticket.*') || request()->routeIs('reply.*')">
                         {{ __('Tickets') }}
                     </x-nav-link>
                 </div>
 
-                @if (auth()->user()->role !== 'admin')
+                @admin
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    </div>
+                @else
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('ticket.create')" :active="request()->routeIs('ticket.create')">
                             {{ __('New Ticket') }}
                         </x-nav-link>
                     </div>
-                @endif
-
-
+                @endadmin
             </div>
 
             <!-- Settings Dropdown -->
@@ -51,7 +54,9 @@
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->role === 'admin' ? Auth::user()->name . " (Admin)" :  Auth::user()->name}}</div>
+                            <div>
+                                {{ Auth::user()->role === 'admin' ? Auth::user()->name . ' (Admin)' : Auth::user()->name }}
+                            </div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -106,27 +111,31 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('post')" :active="request()->routeIs('post')">
+            <x-responsive-nav-link :href="route('post.index')" :active="request()->routeIs('post.*')">
                 {{ __('Post') }}
             </x-responsive-nav-link>
 
-
-            <x-responsive-nav-link :href="route('ticket.index')" :active="request()->routeIs('ticket.index') ||
-                request()->routeIs('ticket.show') ||
-                request()->routeIs('ticket.edit')">
+            <x-responsive-nav-link :href="route('ticket.index')" :active="request()->routeIs('ticket.*') || request()->routeIs('reply.*')">
                 {{ __('Tickets') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('ticket.create')" :active="request()->routeIs('ticket.create')">
-                {{ __('Ticket') }}
-            </x-responsive-nav-link>
+            @admin
+                <x-responsive-nav-link :href="route('ticket.index')" :active="request()->routeIs('user.*')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('ticket.create')" :active="request()->routeIs('ticket.create')">
+                    {{ __('New Ticket') }}
+                </x-responsive-nav-link>
+            @endadmin
 
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->role === 'admin' ? Auth::user()->name . " (Admin)" :  Auth::user()->name}}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">
+                    {{ Auth::user()->role === 'admin' ? Auth::user()->name . ' (Admin)' : Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 

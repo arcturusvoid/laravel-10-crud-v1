@@ -10,11 +10,11 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="container">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        @if (auth()->user()->role === 'admin')
+                        @admin
                             User's Ticket List
                         @else
                             Your Ticket List
-                        @endif
+                        @endadmin
                     </div>
                     <div class="p-5">
                         <table class="table-fixed w-full">
@@ -28,10 +28,12 @@
                             <tbody>
                                 @forelse ($tickets as $ticket)
                                     <tr>
-                                        <td class="hover:text-indigo-400 pl-3 text-center mb-2 dark:text-gray-300 text-start pb-3 overflow-hidden">
-                                            <a class="truncate text-ellipsis" href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->title }}</a>
+                                        <td
+                                            class="hover:text-indigo-400 pl-3 text-center mb-2 dark:text-gray-300 text-start pb-3 overflow-hidden">
+                                            <a class="truncate text-ellipsis"
+                                                href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->title }}</a>
                                         </td>
-                                        
+
                                         <td class="hover:text-blue-400 text-center mb-2 dark:text-gray-300"> <a
                                                 href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->created_at->diffForHumans() }}
                                             </a>
@@ -50,7 +52,7 @@
                             </tbody>
                         </table>
                     </div>
-                  
+
                     <div class="p-5">{{ $tickets->links() }}</div>
 
                 </div>

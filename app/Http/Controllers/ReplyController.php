@@ -11,15 +11,15 @@ class ReplyController extends Controller
 {
     public function store(StoreReplyRequest $request, Ticket $ticket)
     {
-        $request->user()->replies()->create([
-            'ticket_id' => $ticket->id,
+        $ticket->replies()->create([
+            'user_id' => $request->user()->id,
             'body' => $request->body,
         ]);
         
         return redirect()->route('ticket.show', $ticket->id);
     }
 
-    public function edit(Ticket $ticket, Reply $reply)
+    public function edit(Reply $reply)
     {
         $this->authorize('update', $reply);
         return view('reply.edit', compact('reply'));

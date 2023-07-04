@@ -47,12 +47,7 @@
                                     autofocus />
                                 <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
                             </div>
-
                             <x-primary-button class="mb-4 ">{{ __('Update Ticket') }}</x-primary-button>
-                            @if (session('status') === 'ticket-added')
-                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
-                                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Ticket Added.') }}</p>
-                            @endif
                         </form>
                     </div>
                 </div>

@@ -2,78 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $posts = Post::with('user')->orderByDesc('created_at')->get();
+        return view('post.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
-        return view('post', compact('posts'));
+        return view('post.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show()
+    {
+        return redirect()->route('post.index');
+    }
+
+    public function store(PostStoreRequest $request)
     {
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        $request->validate([
-            'content' => ['required', 'string', 'max:255']
-        ]);
-        $post = Post::create([
+        $post = Post::create($request->validated() + [
             'user_id' => $request -> user() -> id,
             'author' => $request -> user() -> name,
-            'content' => $request -> content,
         ]);
-        return redirect()->route('post')->with('status', 'post-added');
+
+        return redirect()->route('post.index')->with('status', 'post-added');
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Post $post)
     {
-        //
+        $this->authorize('edit', $post);
+        return view('post.edit', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        //
+        $this->authorize('update', $post);
+        $post->update($request->validated());
+        return redirect()->route('post.index')->with('status', 'post-updated');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Post $post)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $this->authorize('delete', $post);
+        $post->delete();
+        return redirect()->route('post.index')->with('status', 'post-deleted');
     }
 }
