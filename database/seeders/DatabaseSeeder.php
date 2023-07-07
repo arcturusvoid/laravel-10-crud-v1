@@ -3,18 +3,15 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\TicketCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Database\Seeders\ReplySeeder;
-use Database\Seeders\TicketSeeder;
 
 class DatabaseSeeder extends Seeder
 {
 
     public function run(): void
     {
-        User::factory()->create([
+        \App\Models\User::factory()->create([
             'role' => 'admin',
             'name' => 'Jeremy Aliparo',
             'email' => 'arcturusvoid09@gmail.com',
@@ -22,9 +19,6 @@ class DatabaseSeeder extends Seeder
             'avatar' => 'avatars/t1E6Hd8gFS1tgJc9l9AkNlesXICj93QWjSqVaf9h.jpg',
         ]);
 
-        $this->call([
-            TicketCategorySeeder::class,
-            TicketSeeder::class,
-        ]);
+        User::factory()->count(30000)->create();
     }
 }

@@ -19,7 +19,7 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 mb-5">
-            <a class="text-md p-2 rounded-lg bg-indigo-500 text-gray-300" href="{{ route('post.create') }}">New Post</a>
+            <a class="text-md p-2 rounded-lg bg-indigo-500" href="{{ route('post.create') }}">New Post</a>
         </div>
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -29,7 +29,7 @@
                 <div class="p-2">
                     <div class="">
                         <div class="container p-5">
-                            <h1 class="text-2xl font-bold mb-4 text-white">Posts ({{ $posts->count() }})</h1>
+                            <h1 class="text-2xl font-bold mb-4 text-white">Posts</h1>
                             <div class="grid grid-cols-1 gap-4">
                                 @foreach ($posts as $post)
                                     <div
@@ -45,15 +45,11 @@
                                                 class="text-lg font-semibold {{ auth()->user()->id == $post->user->id ? 'text-white-400' : 'text-gray-400' }}">
                                                 {{ $post->user->name }}
                                             </h3>
-                                            <span class="text-gray-500 italic ml-2"> •
+                                            <span class="text-gray-500 italic ml-2">
                                                 {{ $post->created_at->diffForHumans() }}</span>
-
-                                            @if ($post->created_at != $post->updated_at)
-                                                <span class="text-sm text-gray-500 italic ml-2"> • edited</span>
-                                            @endif
                                         </div>
 
-                                        <div class="overflow-auto break-words w-full px-2 mt-2">
+                                        <div class="text-white overflow-auto break-words w-full px-2 mt-2">
                                             <span class="text-white text-sm">{{ $post->content }}</span>
 
                                             @can('view', $post)
@@ -79,18 +75,19 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                    @endif
-                                </div>
+                                            @endcan
+
+                                        </div>
+
+                                    </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
-                        {{ $posts->links() }}
                     </div>
                 </div>
             </div>
-        </div>
 
         </div>
-        </div>
-        </div>
-    </x-app-layout>
+    </div>
+    </div>
+</x-app-layout>

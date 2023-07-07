@@ -7,11 +7,11 @@
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="container">
-                    <div class="p-6 ">
-                        <p class="text-gray-900 dark:text-gray-100 text-lg">Ticket Updated</p>
-                       
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        Update Your Ticket
                     </div>
                     <div class="px-6">
                         <form action="{{ route('ticket.update', $ticket->id) }}" method="post"
@@ -21,24 +21,17 @@
                             <div class="mb-4">
                                 <x-input-label for="title" :value="__('Title')" />
                                 <x-text-input id="title" type="title" name="title" value="{{ $ticket->title }}"
-                                    class="block mt-1 w-full" required />
+                                    class="block mt-1 w-full" autofocus required />
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
 
                             <div class="mb-4">
                                 <x-input-label for="description" :value="__('Description')" />
                                 <x-textarea placeholder="Add description" id="description" name="description"
-                                    class="block mt-1 w-full" value="{{ $ticket->description }}" required>
+                                    class="block mt-1 w-full" value="{{ $ticket->description }}" autofocus required>
 
                                 </x-textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                            </div>
-
-                            <div class="mb-4">
-                                <x-input-label for="ticket_category_id" :value="__('Category')" />
-                                <x-input-select name="ticket_category_id" class="block mt-1" :oldvalueindex="$ticket->category->id" :options="$ticket_categories"
-                                    required />
-                                <x-input-error name="category" :messages="$errors->get('category')" class="mt-2" />
                             </div>
 
                             <div class="mb-4 text-gray-900 dark:text-gray-100">

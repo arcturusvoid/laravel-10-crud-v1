@@ -38,6 +38,13 @@
                             {{ __('Users') }}
                         </x-nav-link>
                     </div>
+                @else
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('ticket.create')" :active="request()->routeIs('ticket.create')">
+                            {{ __('New Ticket') }}
+                        </x-nav-link>
+                    </div>
                 @endadmin
             </div>
 
@@ -115,6 +122,10 @@
             @admin
                 <x-responsive-nav-link :href="route('ticket.index')" :active="request()->routeIs('user.*')">
                     {{ __('Users') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('ticket.create')" :active="request()->routeIs('ticket.create')">
+                    {{ __('New Ticket') }}
                 </x-responsive-nav-link>
             @endadmin
 

@@ -33,14 +33,12 @@ Route::get('/auth/callback', function () {
 });
 
 Route::middleware('auth')->group(function () {
-
-    Route::middleware(['admin'])->group(function () {
-        Route::resource('user', UserController::class);
-    });
-    
     Route::resource('post', PostController::class);
     Route::resource('ticket', TicketController::class);
-    Route::patch('/ticket/{ticket}/status', [TicketController::class, 'update_status'])->name('ticket.update.status');
+
+    Route::group(['middleware' => 'admin'], function() {
+        Route::resource('user', UserController::class);
+    });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
