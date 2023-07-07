@@ -14,7 +14,9 @@ class UserController extends Controller
     public function index()
     {
         $this->authorize('view', auth()->user());
-        $users = User::withCount('tickets')->paginate(15);
+        $users = User::withCount('tickets')
+            ->withCount('replies')
+            ->paginate(15);
         return view('user.index', compact('users'));
     }
 
@@ -24,6 +26,7 @@ class UserController extends Controller
     public function create()
     {
         $this->authorize('create', auth()->user());
+        return view('user.create');
     }
 
     /**
@@ -31,7 +34,9 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $this->authorize('store', auth()->user());
+        $this->authorize('store', $request->user());
+        User::create($request->validated());
+        return redirect()->route('user.index')->with('status', 'user-created');
     }
 
     /**
@@ -58,7 +63,7 @@ class UserController extends Controller
     {
         $this->authorize('update', auth()->user());
         $user->update($request->validated());
-        return redirect()->route('user.index')->with('user-status', 'updated');
+        return redirect()->route('user.index')->with('status', 'user-updated');
     }
 
     /**
@@ -68,6 +73,6 @@ class UserController extends Controller
     {
         $this->authorize('delete', auth()->user());
         $user->delete();
-        return redirect()->route('user.index')->with('user-status', 'deleted');
+        return redirect()->route('user.index')->with('status', 'user-deleted');
     }
 }

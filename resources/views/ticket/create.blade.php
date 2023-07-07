@@ -15,19 +15,26 @@
                     <div class="px-6">
                         <form action="{{ route('ticket.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
+
                             <div class="mb-4">
                                 <x-input-label for="title" :value="__('Title')" />
-                                <x-text-input id="title" type="title" name="title" value="{{ old('title') }}"
-                                    class="block mt-1 w-full" autofocus required />
+                                <x-text-input id="title" type="text" name="title" value="{{ old('title') }}"
+                                    class="block mt-1 w-full" required />
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
 
                             <div class="mb-4">
                                 <x-input-label for="description" :value="__('Description')" />
                                 <x-textarea placeholder="Add description" id="description" name="description"
-                                    value="{{ old('description') }}" class="block mt-1 w-full" autofocus required>
+                                    value="{{ old('description') }}" class="block mt-1 w-full" required>
                                 </x-textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="category" :value="__('Category')" />
+                                <x-input-select name="category" class="block mt-1" :options="$ticket_categories" required />
+                                <x-input-error name="category" :messages="$errors->get('category')" class="mt-2" />
                             </div>
 
                             <div class="mb-4">
@@ -38,10 +45,6 @@
                             </div>
 
                             <x-primary-button class="mb-4 ">{{ __('Create Ticket') }}</x-primary-button>
-
-                            @if (session('status') === 'ticket-added')
-                                <x-alert-success class="z-50" :message="'Ticket added!'"></x-alert-success>
-                            @endif
                         </form>
                     </div>
                 </div>

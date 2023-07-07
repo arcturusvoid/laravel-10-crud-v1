@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('status')->default(TicketStatus::OPEN->value);
             $table->string('attachment')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('status_changed_by_id')->nullable()->constrained('users');
+            $table->foreignId('status_changed_by_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('status_changed_at')->nullable();
             $table->timestamps();
         });
     }
