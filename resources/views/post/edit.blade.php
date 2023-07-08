@@ -7,7 +7,7 @@
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-6">
         <div class="flex-row">
             <div class="">
-                <div class="container p-5">
+                <div class="container p-5 dark:bg-gray-800 rounded-lg mt-4">
                     <form action="{{ route('post.update', $post->id) }}" method="post">
                         @csrf
                         @method('patch')

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TicketCategory;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTicketRequest extends FormRequest
 {
@@ -17,6 +19,7 @@ class StoreTicketRequest extends FormRequest
             'title' => 'required|string|min:5|max:255',
             'description' => 'required|string|min:10|max:2000',
             'attachment' => 'sometimes|file|mimes:pdf,jpg,jpeg,bmp,png',
+            'category' => ['required', 'string', Rule::in(array_column(TicketCategory::cases(), 'value'))],
         ];
     }
 }

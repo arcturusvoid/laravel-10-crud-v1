@@ -16,7 +16,7 @@ class ReplyController extends Controller
             'body' => $request->body,
         ]);
         
-        return redirect()->route('ticket.show', $ticket->id);
+        return redirect()->route('ticket.show', $ticket->id)->with('status', 'reply-added');
     }
 
     public function edit(Reply $reply)
@@ -28,7 +28,7 @@ class ReplyController extends Controller
     {
         $this->authorize('update', $reply);
         $reply->update($request->validated());
-        return redirect()->route('ticket.show', $reply->ticket->id);
+        return redirect()->route('ticket.show', $reply->ticket->id)->with('status', 'reply-updated');
     }
 
     public function destroy(Reply $reply)

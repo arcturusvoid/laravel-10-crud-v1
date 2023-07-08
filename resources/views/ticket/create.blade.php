@@ -17,8 +17,8 @@
                             @csrf
                             <div class="mb-4">
                                 <x-input-label for="title" :value="__('Title')" />
-                                <x-text-input id="title" type="title" name="title" value="{{ old('title') }}"
-                                    class="block mt-1 w-full" autofocus required />
+                                <x-text-input id="title" type="text" name="title" value="{{ old('title') }}"
+                                    class="block mt-1 w-full" required />
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
 
@@ -28,6 +28,12 @@
                                     value="{{ old('description') }}" class="block mt-1 w-full" autofocus required>
                                 </x-textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            </div>
+                            
+                            <div class="mb-4">
+                                <x-input-label for="category" :value="__('Category')" />
+                                <x-input-select name="category" class="block mt-1" :options="$ticket_categories" required />
+                                <x-input-error name="category" :messages="$errors->get('category')" class="mt-2" />
                             </div>
 
                             <div class="mb-4">

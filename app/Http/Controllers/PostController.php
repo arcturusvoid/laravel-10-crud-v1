@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Post;
+
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->orderByDesc('created_at')->get();
+        $posts = Post::with('user')->orderByDesc('created_at')->paginate(10);
         return view('post.index', compact('posts'));
     }
 
@@ -27,15 +26,8 @@ class PostController extends Controller
 
     public function store(PostStoreRequest $request)
     {
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $post = Post::create($request->validated() + [
-            'user_id' => $request -> user() -> id,
-            'author' => $request -> user() -> name,
-        ]);
-
+        $request->user()->posts()->create($request->validated());
+        
         return redirect()->route('post.index')->with('status', 'post-added');
 
     }
