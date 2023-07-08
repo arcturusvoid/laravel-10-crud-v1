@@ -36,7 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['admin'])->group(function() {
         Route::resource('user', UserController::class);
     });
-
     Route::resource('post', PostController::class);
     Route::patch('ticket/{ticket}/status', [TicketController::class, 'update_status'])->name('ticket.update.status');
     Route::resource('ticket', TicketController::class);
