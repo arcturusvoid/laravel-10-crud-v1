@@ -3,11 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\TicketCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Database\Seeders\ReplySeeder;
-use Database\Seeders\TicketSeeder;
 
 class DatabaseSeeder extends Seeder
 {

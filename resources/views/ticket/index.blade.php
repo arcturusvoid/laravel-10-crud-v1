@@ -14,8 +14,8 @@
     @endif
 
     @if (session('status') === 'ticket-deleted')
-    <x-alert-danger class="z-50" :message="'Ticket deleted!'"></x-alert-danger>
-@endif
+        <x-alert-danger class="z-50" :message="'Ticket deleted!'"></x-alert-danger>
+    @endif
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 mb-5">
@@ -54,7 +54,7 @@
                                         <td
                                             class="hover:text-indigo-400 pl-3 mb-2 dark:text-gray-300 text-center pb-3 capitalize">
                                             <a
-                                                href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->category->name}}</a>
+                                                href="{{ route('ticket.show', ['ticket' => $ticket->id]) }}">{{ $ticket->category->name }}</a>
                                         </td>
 
                                         <td class="hover:text-blue-400 text-center mb-2 dark:text-gray-300"> <a
@@ -75,7 +75,9 @@
                             </tbody>
                         </table>
                     </div>
+
                     <div class="p-5">{{ $tickets->links() }}</div>
+
                 </div>
             </div>
         </div>

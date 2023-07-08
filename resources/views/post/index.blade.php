@@ -47,10 +47,6 @@
                                             </h3>
                                             <span class="text-gray-500 italic ml-2"> •
                                                 {{ $post->created_at->diffForHumans() }}</span>
-
-                                            @if ($post->created_at != $post->updated_at)
-                                                <span class="text-sm text-gray-500 italic ml-2"> • edited</span>
-                                            @endif
                                         </div>
 
                                         <div class="overflow-auto break-words w-full px-2 mt-2">
@@ -79,18 +75,17 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                    @endif
-                                </div>
+                                            @endcan
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            @endforeach
+                            {{ $posts->links() }}
                         </div>
-                        {{ $posts->links() }}
                     </div>
                 </div>
             </div>
         </div>
-
-        </div>
-        </div>
-        </div>
-    </x-app-layout>
+    </div>
+    </div>
+</x-app-layout>

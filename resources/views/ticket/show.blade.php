@@ -23,7 +23,6 @@
                 <div class="container">
                     <div class="p-6 flex justify-between items-center">
                         <span class="text-gray-900 dark:text-gray-100">Ticket Title: <b>{{ $ticket->title }}</b></span>
-                        
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
@@ -68,7 +67,6 @@
 
                         <p class="text-white mt-2 capitalize">Ticket Category: <b>{{ $ticket->category->name }}</b>
                         </p>
-
                         <hr class="w-64 h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 mb-3 mt-6">
                         @if ($ticket->attachment != null)
                             <a href="/storage/{{ $ticket->attachment }}" target="_blank">View Attachment</a>
@@ -94,6 +92,31 @@
                                     <x-input-error :messages="$errors->get('status')" class="mt-2 " />
                                 </div>
                             @else
+                                <div class="inline-flex">
+                                    <form action="{{ route('ticket.edit', $ticket->id) }}" method="get">
+                                        <button
+                                            class="w-4 h-8 mr-2 rounded-full text-gray-500 transition-colors duration-150">
+                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ route('ticket.destroy', $ticket->id) }}" method="post">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit"
+                                            class="w-4 h-8 rounded-full text-gray-500 transition-colors duration-150">
+                                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
                                 <p class="px-6 pb-6 text-gray-900 dark:text-gray-100 capitalize">Status:
                                     {{ $ticket->status }}</p>
                             @endadmin
@@ -101,7 +124,6 @@
                         @admin
                             <p class="text-gray-900 dark:text-gray-100 capitalize">Created by:
                                 {{ $ticket->user->name }}
-                                <p class="text-gray-400 mt-2 italic">Posted: {{ $ticket->created_at->diffForHumans() }}</p>
                             </p>
                         @endadmin
 
@@ -139,7 +161,6 @@
                                             src="/storage/{{ $reply->user->avatar }}" alt="">
                                         {{ $reply->user->name . ' (' . $reply->user->role . ')' }}
                                     </p>
-
                                     <p class="text-sm text-gray-600 dark:text-gray-400">•
                                         {{ $reply->created_at->diffForHumans() }}</p>
 
@@ -186,10 +207,7 @@
                                     </div>
                                 @endcan
                             </footer>
-                            <p class="text-gray-500 dark:text-gray-400">{{ $reply->body }}<a /p>
-
-
-
+                            <p class="text-gray-500 dark:text-gray-400">{{ $reply->body }}</p>
                         </article>
                     @empty
                         <p class="text-gray-500 dark:text-gray-400">Theres no discussion yet, make some!</p>

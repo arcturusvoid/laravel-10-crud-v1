@@ -12,6 +12,6 @@ class TicketCategory extends Model
     protected $fillable = ['name'];
 
     public function tickets(){
-        return $this->hasMany(Ticket::class, 'ticket_category_id');
+        return $this->hasMany(Ticket::class);
     }
 }

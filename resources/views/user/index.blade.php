@@ -22,72 +22,72 @@
             <a class="text-md p-2 rounded-lg bg-indigo-500 text-gray-300" href="{{ route('user.create') }}">New
                 User</a>
         </div>
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="overflow-x-auto">
-                        <div class="w-full flex items-center font-sans overflow-hidden">
-                            <div class="w-full">
-                                <div class="shadow-md rounded my-6">
-                                    <table class="w-full table-auto rounded-lg">
-                                        <thead>
-                                            <tr
-                                                class="text-white uppercase text-sm leading-normal border-b border-gray-500">
-                                                <th class="py-3 px-6 text-left">Name</th>
-                                                <th class="py-3 px-6 text-left">Email</th>
-                                                <th class="py-3 px-6 text-center">Tickets</th>
-                                                <th class="py-3 px-6 text-center">Replies</th>
-                                                <th class="py-3 px-6 text-center">Role</th>
-                                                <th class="py-3 px-6 text-center">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-white text-sm font-light">
-                                            @forelse ($users as $user)
-                                                <tr class="border-b border-gray-700">
-                                                    <td class="py-3 px-6 text-left">
-                                                        <div class="flex items-center">
-                                                            <div class="mr-2">
-                                                                <img class="w-6 h-6 rounded-full"
-                                                                    src="/storage/{{ $user->avatar }}" />
+        <div class="max-w-5xl mx-auto">
+            <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <div class="overflow-x-auto">
+                            <div class="w-full flex items-center font-sans overflow-hidden">
+                                <div class="w-full">
+                                    <div class="bg-gray-800 shadow-md rounded my-6">
+                                        <table class="w-full table-auto rounded-lg">
+                                            <thead>
+                                                <tr
+                                                    class="text-white uppercase text-sm leading-normal border-b border-gray-500">
+                                                    <th class="py-3 px-6 text-left">Name</th>
+                                                    <th class="py-3 px-6 text-left">Email</th>
+                                                    <th class="py-3 px-6 text-center">Tickets</th>
+                                                    <th class="py-3 px-6 text-center">Replies</th>
+                                                    <th class="py-3 px-6 text-center">Role</th>
+                                                    <th class="py-3 px-6 text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-white text-sm font-light">
+                                                @forelse ($users as $user)
+                                                    <tr class="border-b border-gray-700">
+                                                        <td class="py-3 px-6 text-left">
+                                                            <div class="flex items-center">
+                                                                <div class="mr-2">
+                                                                    <img class="w-6 h-6 rounded-full"
+                                                                        src="/storage/{{ $user->avatar }}" />
+                                                                </div>
+                                                                <span>{{ $user->name }}</span>
                                                             </div>
-                                                            <span>{{ $user->name }}</span>
-                                                        </div>
-                                                    </td>
+                                                        </td>
 
-                                                    <td class="py-3 px-6">
-                                                        <span>{{ $user->email }}</span>
-                                                    </td>
+                                                        <td class="py-3 px-6">
+                                                            <span>{{ $user->email }}</span>
+                                                        </td>
 
-                                                    <td class="py-3 px-6 text-center">
-                                                        <span
-                                                            class="text-white py-1 px-3 text-sm">{{ $user->tickets_count }}</span>
-                                                    </td>
+                                                        <td class="py-3 px-6 text-center">
+                                                            <span
+                                                                class="text-white py-1 px-3 text-sm">{{ $user->tickets_count }}</span>
+                                                        </td>
 
-                                                    <td class="py-3 px-6 text-center">
-                                                        <span
-                                                            class="text-white py-1 px-3 text-sm">{{ $user->replies_count }}</span>
-                                                    </td>
+                                                        <td class="py-3 px-6 text-center">
+                                                            <span
+                                                                class="text-white py-1 px-3 text-sm">{{ $user->replies_count }}</span>
+                                                        </td>
 
-                                                    <td class="py-3 px-6 text-center">
-                                                        <span
-                                                            class="bg-indigo-500 text-white py-1 px-3 rounded-full text-sm capitalize">{{ $user->role }}</span>
-                                                    </td>
+                                                        <td class="py-3 px-6 text-center">
+                                                            <span
+                                                                class="bg-indigo-500 text-white py-1 px-3 rounded-full text-sm capitalize">{{ $user->role }}</span>
+                                                        </td>
 
-                                                    <td class="py-3 px-6 text-center">
-                                                        <div class="flex item-center justify-center">
-                                                            <div
-                                                                class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                                <a href="{{ route('user.edit', $user->id) }}">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none" viewBox="0 0 24 24"
-                                                                        stroke="currentColor">
-                                                                        <path stroke-linecap="round"
-                                                                            stroke-linejoin="round" stroke-width="2"
-                                                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                                    </svg>
-                                                                </a>
-                                                            </div>
-                                                            <div>
+                                                        <td class="py-3 px-6 text-center">
+                                                            <div class="flex item-center justify-center">
+                                                                <div
+                                                                    class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                                    <a href="{{ route('user.edit', $user->id) }}"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            stroke="currentColor">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                                        </svg></a>
+
+                                                                </div>
                                                                 <div>
                                                                     <form
                                                                         action="{{ route('user.destroy', $user->id) }}"
@@ -108,18 +108,18 @@
                                                                     </form>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr class="border-b border-gray-800">
-                                                    No user yet
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="border-b border-gray-800">
+                                                        No user yet
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="mt-7"> {{ $users->links('') }}</div>
                                 </div>
-                                <div class=""> {{ $users->links() }}</div>
                             </div>
                         </div>
                     </div>

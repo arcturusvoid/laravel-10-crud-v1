@@ -13,4 +13,3 @@ enum TicketCategory: string
     case training_documentation = '7';
     case urgent_high_priority = '8';
 }
-

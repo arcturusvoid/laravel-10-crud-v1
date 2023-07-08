@@ -35,6 +35,6 @@ class ReplyController extends Controller
     {
         $this->authorize('delete', $reply);
         $reply->delete();
-        return redirect()->route('ticket.show', $reply->ticket->id)->with('status', 'reply-deleted');
+        return redirect()->route('ticket.show', $reply->ticket->id);
     }
 }

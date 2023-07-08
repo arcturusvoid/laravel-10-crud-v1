@@ -10,10 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')
-            ->orderByDesc('created_at')
-            ->paginate(10);
-
+        $posts = Post::with('user')->orderByDesc('created_at')->paginate(10);
         return view('post.index', compact('posts'));
     }
 
@@ -30,6 +27,7 @@ class PostController extends Controller
     public function store(PostStoreRequest $request)
     {
         $request->user()->posts()->create($request->validated());
+        
         return redirect()->route('post.index')->with('status', 'post-added');
 
     }

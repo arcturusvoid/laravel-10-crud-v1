@@ -20,20 +20,17 @@ class Ticket extends Model
         'status_changed_by_id',
         'status_changed_at',
         'ticket_category_id',
-        
     ];
 
     protected $casts = [
         'status_changed_at' => 'datetime',
     ];
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function replies()
-    {
+    public function replies() {
         return $this->hasMany(Reply::class);
     }
 

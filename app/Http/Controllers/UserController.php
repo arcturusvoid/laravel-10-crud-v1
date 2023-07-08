@@ -17,6 +17,7 @@ class UserController extends Controller
         $users = User::withCount('tickets')
             ->withCount('replies')
             ->paginate(15);
+
         return view('user.index', compact('users'));
     }
 

@@ -16,8 +16,7 @@ class TicketController extends Controller
     public function index(Request $request)
     {
         $tickets = $request->user()->role === 'admin' ?
-            Ticket::with('category')->orderByDesc('updated_at')->paginate(10) :
-            $request->user()->tickets()->with('category')->orderByDesc('updated_at')->paginate(10);
+        Ticket::with('category')->orderByDesc('updated_at')->paginate(10) : $request->user()->tickets()->with('category')->orderByDesc('updated_at')->paginate(10);
 
         return view('ticket.index', compact('tickets'));
     }
@@ -31,15 +30,14 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request)
     {
         $path = null;
+        $ticket = $request->validated();
         if ($request->hasFile('attachment')) {
             $path = $request->file('attachment')->store('ticketAttachments', 'public');
+            $ticket['attachment'] = $path;
         }
-
-        $request->user()->tickets()->create([
-            'title' => $request->title,
-            'description' => $request->description,
+      
+        $request->user()->tickets()->create($ticket + [
             'ticket_category_id' => $request->category,
-            'attachment' => $path,
         ]);
 
         return redirect()->route('ticket.index')->with('status', 'ticket-added');
@@ -48,12 +46,10 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $this->authorize('view', $ticket);
-
-        $replies = $ticket
-            ->replies()
+        $replies = $ticket->replies()
             ->with('user')
             ->paginate(10);
-
+    
         return view('ticket.show', compact('ticket', 'replies'));
     }
 
@@ -68,15 +64,15 @@ class TicketController extends Controller
     {
         $this->authorize('update', $ticket);
         $path = null;
-        $updated_data = $request->validated();
+        $updated_ticket = $request->validated();
         if ($request->hasFile('attachment')) {
             if ($ticket->attachment) {
                 Storage::disk('public')->delete($ticket->attachment);
             }
             $path = $request->file('attachment')->store('ticketAttachments', 'public');
-            $updated_data['attachment'] = $path;
+            $updated_ticket['attachment'] = $path;
         }
-        $ticket->update(array_merge($updated_data));
+        $ticket->update(array_merge($updated_ticket));
         return redirect()->route('ticket.index')->with('status', 'ticket-updated');
     }
 
@@ -96,7 +92,6 @@ class TicketController extends Controller
         // return (new TicketStatusChange($ticket))->toMail($ticket->user);
 
         return redirect()->route('ticket.index')->with('status', 'ticket-updated');
-
     }
 
     public function destroy(Ticket $ticket)
@@ -106,6 +101,6 @@ class TicketController extends Controller
             Storage::disk('public')->delete($ticket->attachment);
         }
         $ticket->delete();
-        return redirect()->route('ticket.index')->with('status', 'ticket-deleted');
+        redirect()->route('ticket.index')->with('status', 'ticket-deleted');
     }
 }

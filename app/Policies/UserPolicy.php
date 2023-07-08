@@ -30,11 +30,6 @@ class UserPolicy
         return $user->role === 'admin';
     }
 
-    public function store(User $user, User $model): bool
-    {
-        return $user->role === 'admin';
-    }
-
     public function edit(User $user, User $model): bool
     {
         return $user->role === 'admin';

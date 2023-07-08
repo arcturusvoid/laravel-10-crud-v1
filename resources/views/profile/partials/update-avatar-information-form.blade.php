@@ -30,7 +30,7 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'avatar-updated')
-                <x-alert-success :message="'Avatar updated!'"/>
+                <x-alert-success :message="'Avatar updated!'" />
             @endif
         </div>
     </form>
